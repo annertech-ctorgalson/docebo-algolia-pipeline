@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # @see https://github.com/marketplace/actions/http-request-action
+      # @see https://usertesting.docebosaas.com/api-browser/#!/course/Courses/Courses_course_v1_courses
       - name: Download course data.
         id: downloadCourseData
         uses: fjogeleit/http-request-action@master
@@ -19,14 +20,23 @@ jobs:
           url: https://usertesting.docebosaas.com/course/v1/courses?status[]=published
           method: GET
           
-      - name: Show response.
-        run: echo ${{ steps.downloadCourseData.outputs.response }} > courses.json
-        shell: bash
-        if: always()
+      - name: Create tmp directory.
+        run: mkdir ${{ env.home }}/tmp
         
-      - name: Show file contents.
+      # @see https://github.com/marketplace/actions/write-file
+      - name: Create file from API data.
+        uses: DamianReeves/write-file-action
+        with:
+          path: ${{ env.home }}/tmp/courses.json
+          contents: |
+            echo ${{ steps.downloadCourseData.outputs.response }}
+          write-mode: overwrite
+        if: always()
+          
+      - name: Show fiel and contents.
         run: |
-          echo "$(cat courses.json)"
+          ls -hal ${{ env.home }}/tmp/
+          cat > ${{ env.home }}/tmp/courses.json
         shell: bash
         if: always()
         
