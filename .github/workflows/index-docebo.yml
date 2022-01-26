@@ -38,7 +38,7 @@ jobs:
           path: $DOCEBO_COURSES_FILENAME
           retention-days: 1
   
-  index_courses_data:
+  index_course_data:
     runs-on: ubuntu-latest
     needs: download_course_data
     steps:
