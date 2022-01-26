@@ -22,6 +22,7 @@ jobs:
           
       - name: Create tmp directory.
         run: mkdir ${{ env.home }}/tmp
+        if: always()
         
       # @see https://github.com/marketplace/actions/write-file
       - name: Create file from API data.
@@ -36,7 +37,7 @@ jobs:
       - name: Show file and contents.
         run: |
           ls -hal ${{ env.home }}/tmp/
-          cat ${{ env.home }}/tmp/courses.json
+          head -n10 ${{ env.home }}/tmp/courses.json
         shell: bash
         if: always()
         
