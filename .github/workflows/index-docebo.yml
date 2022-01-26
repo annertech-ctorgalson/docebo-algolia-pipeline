@@ -19,10 +19,6 @@ jobs:
         with:
           url: https://usertesting.docebosaas.com/course/v1/courses?status[]=published
           method: GET
-          
-      - name: Create tmp directory.
-        run: mkdir ${{ env.home }}/tmp
-        if: always()
         
       # @see https://github.com/marketplace/actions/write-file
       - name: Create file from API data.
@@ -33,8 +29,14 @@ jobs:
             echo ${{ steps.downloadCourseData.outputs.response }}
           write-mode: overwrite
         if: always()
-          
-      - name: Show file and contents.
+
+      - name: Show file contents.
+        run: |
+          head -n10 ${{ env.home }}/tmp/courses.json
+        shell: bash
+        if: always()          
+
+      - name: Show file.
         run: |
           ls -hal ${{ env.home }}/tmp/
           head -n10 ${{ env.home }}/tmp/courses.json
