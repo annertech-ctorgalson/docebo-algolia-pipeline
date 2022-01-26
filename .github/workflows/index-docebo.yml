@@ -25,7 +25,7 @@ jobs:
         
       # @see https://github.com/marketplace/actions/write-file
       - name: Create file from API data.
-        uses: DamianReeves/write-file-action
+        uses: DamianReeves/write-file-action@master
         with:
           path: ${{ env.home }}/tmp/courses.json
           contents: |
