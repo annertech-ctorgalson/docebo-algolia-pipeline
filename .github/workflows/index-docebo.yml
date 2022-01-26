@@ -21,7 +21,7 @@ jobs:
         id: downloadCourseData
         uses: fjogeleit/http-request-action@master
         with:
-          url: "$DOCEBO_API_URL/$DOCEBO_API_ROUTE?$DOCEBO_API_QUERY"
+          url: $DOCEBO_API_URL/$DOCEBO_API_ROUTE?$DOCEBO_API_QUERY
           method: GET
           
       - name: Show Response
