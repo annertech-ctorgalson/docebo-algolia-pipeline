@@ -21,7 +21,8 @@ jobs:
       - name: TEST: display courses.json content.
         shell: bash
         run: |
-          cat courses.json
+          value=$(cat courses.json)
+          echo "$value"
       - name: Checkout this repository.
         uses: actions/checkout@v2
         with:
