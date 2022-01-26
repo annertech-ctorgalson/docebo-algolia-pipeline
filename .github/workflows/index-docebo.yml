@@ -1,15 +1,18 @@
 name: Index Docebo Content
 
-# Controls when the workflow will run
 on:
   # Triggers the workflow every day at midnight.
   schedule:
     - cron: "0 0 * * *"
-
-  # Allows you to run this workflow manually from the Actions tab.
+  # Enables the workflow to be triggered from Github.
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+env:
+  DOCEBO_API_URL: https://usertesting.docebosaas.com/course
+  DOCEBO_API_ROUTE: v1/courses
+  DOCEBO_API_QUERY: status[]=published
+  DOCEBO_RESULTS_FILE: courses.json
+
 jobs:
   download_and_index_courses:
     runs-on: ubuntu-latest
@@ -17,11 +20,11 @@ jobs:
       - name: curl
         uses: wei/curl@v1
         with:
-          args: -o courses.json https://usertesting.docebosaas.com/course/v1/courses?status[]=published
+          args: -o "$DOCEBO_RESULTS_FILE" "$DOCEBO_API_URL/$DOCEBO_API_ROUTE?$DOCEBO_API_QUERY"
       - name: TEST display courses.json content.
         shell: bash
         run: |
-          value=$(cat courses.json)
+          value=$(cat "$DOCEBO_RESULTS_FILE")
           echo "$value"
       - name: Checkout this repository.
         uses: actions/checkout@v2
