@@ -25,8 +25,7 @@ jobs:
         uses: DamianReeves/write-file-action@master
         with:
           path: ${{ env.home }}/tmp/courses.json
-          contents: |
-            echo ${{ steps.downloadCourseData.outputs.response }}
+          contents: ${{ steps.downloadCourseData.outputs.response }}
           write-mode: overwrite
         if: always()
 
