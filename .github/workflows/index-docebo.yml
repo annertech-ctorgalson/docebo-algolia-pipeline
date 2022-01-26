@@ -18,7 +18,7 @@ jobs:
         uses: wei/curl@v1
         with:
           args: -o courses.json https://usertesting.docebosaas.com/course/v1/courses?status[]=published
-      - name: TEST: display courses.json content.
+      - name: TEST display courses.json content.
         shell: bash
         run: |
           value=$(cat courses.json)
