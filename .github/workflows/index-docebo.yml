@@ -12,15 +12,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # @see https://github.com/marketplace/actions/http-request-action
-      - name: Download course data
+      - name: Download course data.
         id: downloadCourseData
         uses: fjogeleit/http-request-action@master
         with:
           url: https://usertesting.docebosaas.com/course/v1/courses?status[]=published
           method: GET
           
-      - name: Show Response
-        run: echo ${{ steps.downloadCourseData.outputs.response }}
+      - name: Show response.
+        run: echo ${{ steps.downloadCourseData.outputs.response }} > courses.json
+        shell: bash
+        if: always()
+        
+      - name: Show file contents.
+        run: |
+          command -v cat
+          value=$(cat courses.json)
+          echo "$value"
+        shell: bash
+        if: always()
         
       # @see https://github.com/marketplace/actions/checkout
       - name: Checkout this repository.
