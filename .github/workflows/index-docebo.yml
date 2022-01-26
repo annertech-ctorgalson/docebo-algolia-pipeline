@@ -26,4 +26,4 @@ jobs:
             app_id: ${{ secrets.APP_ID }}
             admin_key: ${{ secrets.ADMIN_KEY }}
             index_name: ${{ secrets.INDEX_NAME }}
-            index_file_path: test-data/docebo-record.json
+            index_file_path: test-data/docebo-records.json
