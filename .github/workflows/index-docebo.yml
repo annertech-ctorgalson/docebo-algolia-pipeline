@@ -36,7 +36,7 @@ jobs:
         with:
           name: $DOCEBO_COURSES_ARTIFACT
           path: $DOCEBO_COURSES_FILENAME
-        retention-days: 1
+          retention-days: 1
   
   index_courses_data:
     runs-on: ubuntu-latest
