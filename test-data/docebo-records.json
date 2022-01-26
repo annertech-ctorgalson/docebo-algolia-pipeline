@@ -26,6 +26,7 @@
     "name": "On-Demand Content"
   },
   "img_url": "",
+  "index_src": "github-action",
   "available_seats": null,
   "can_rate": false,
   "can_self_unenroll": true,
