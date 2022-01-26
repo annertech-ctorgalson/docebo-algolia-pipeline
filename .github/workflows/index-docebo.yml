@@ -7,6 +7,10 @@ on:
   # Enables the workflow to be triggered from Github.
   workflow_dispatch:
 
+env:
+  DOCEBO_COURSES_ARTIFACT: docebo-courses
+  DOCEBO_COURSES_FILENAME: docebo-courses.json
+
 jobs:
   download_course_data:
     runs-on: ubuntu-latest
@@ -23,31 +27,23 @@ jobs:
       - name: Create file from API response.
         shell: bash
         run: |
-          echo ${{ steps.myRequest.outputs.response }} > docebo-courses.json
-        if: always()
+          echo ${{ steps.myRequest.outputs.response }} > $DOCEBO_COURSES_FILENAME
       
       # @see https://github.com/actions/upload-artifact
       - name: Upload course data file.
         uses: actions/upload-artifact@v2
         with:
-          name: docebo-courses
-          path: docebo-courses.json
-        if: always()
+          name: $DOCEBO_COURSES_ARTIFACT
+          path: $DOCEBO_COURSES_FILENAME
   
   index_courses_data:
     runs-on: ubuntu-latest
     steps:
+      # @see https://github.com/actions/download-artifact
       - name: Download Docebo course data.
         uses: actions/download-artifact@v2
         with:
-          name: docebo-courses
-        if: always()
-
-      - name: Show file contents.
-        run: |
-          cat docebo-courses.json
-        shell: bash
-        if: always()          
+          name: $DOCEBO_COURSES_ARTIFACT       
         
       # @see https://github.com/marketplace/actions/checkout
       - name: Checkout this repository.
