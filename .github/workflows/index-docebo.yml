@@ -8,39 +8,46 @@ on:
   workflow_dispatch:
 
 jobs:
-  download_and_index_courses:
+  download_course_data:
     runs-on: ubuntu-latest
     steps:
       # @see https://github.com/marketplace/actions/http-request-action
       # @see https://usertesting.docebosaas.com/api-browser/#!/course/Courses/Courses_course_v1_courses
-      - name: Download course data.
+      - name: Download course data from Docebo API.
         id: downloadCourseData
         uses: fjogeleit/http-request-action@master
         with:
           url: https://usertesting.docebosaas.com/course/v1/courses?status[]=published
           method: GET
-        
-      # @see https://github.com/marketplace/actions/write-file
-      - name: Create file from API data.
-        uses: DamianReeves/write-file-action@master
+          
+      - name: Create file from API response.
+        shell: bash
+        run: |
+          echo ${{ steps.myRequest.outputs.response }} > docebo-courses.json
+        if: always()
+      
+      # @see https://github.com/actions/upload-artifact
+      - name: Upload course data file.
+        uses: actions/upload-artifact@v2
         with:
-          path: ${{ env.home }}/tmp/courses.json
-          contents: ${{ steps.downloadCourseData.outputs.response }}
-          write-mode: overwrite
+          name: docebo-courses
+          path: docebo-courses.json
+        if: always()
+  
+  index_courses_data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Docebo course data.
+        uses: actions/download-artifact@v2
+        with:
+          name: docebo-courses
         if: always()
 
       - name: Show file contents.
         run: |
-          head -n10 ${{ env.home }}/tmp/courses.json
+          cat docebo-courses.json
         shell: bash
         if: always()          
-
-      - name: Show file.
-        run: |
-          ls -hal ${{ env.home }}/tmp/
-          head -n10 ${{ env.home }}/tmp/courses.json
-        shell: bash
-        if: always()
         
       # @see https://github.com/marketplace/actions/checkout
       - name: Checkout this repository.
