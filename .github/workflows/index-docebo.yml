@@ -7,11 +7,6 @@ on:
   # Enables the workflow to be triggered from Github.
   workflow_dispatch:
 
-env:
-  DOCEBO_API_URL: https://usertesting.docebosaas.com/course
-  DOCEBO_API_ROUTE: v1/courses
-  DOCEBO_API_QUERY: status[]=published
-
 jobs:
   download_and_index_courses:
     runs-on: ubuntu-latest
@@ -21,7 +16,7 @@ jobs:
         id: downloadCourseData
         uses: fjogeleit/http-request-action@master
         with:
-          url: $DOCEBO_API_URL/$DOCEBO_API_ROUTE?$DOCEBO_API_QUERY
+          url: https://usertesting.docebosaas.com/course/v1/courses?status[]=published
           method: GET
           
       - name: Show Response
