@@ -11,27 +11,29 @@ env:
   DOCEBO_API_URL: https://usertesting.docebosaas.com/course
   DOCEBO_API_ROUTE: v1/courses
   DOCEBO_API_QUERY: status[]=published
-  DOCEBO_RESULTS_FILE: courses.json
 
 jobs:
   download_and_index_courses:
     runs-on: ubuntu-latest
     steps:
-      - name: curl
-        uses: wei/curl@v1
+      # @see https://github.com/marketplace/actions/http-request-action
+      - name: Download course data
+        id: downloadCourseData
+        uses: fjogeleit/http-request-action@master
         with:
-          args: -o "$DOCEBO_RESULTS_FILE" "$DOCEBO_API_URL/$DOCEBO_API_ROUTE?$DOCEBO_API_QUERY"
-      - name: TEST display courses.json content.
-        shell: bash
-        run: |
-          pwd && ls -hal
-          value=$(cat "$DOCEBO_RESULTS_FILE")
-          echo "$value"
-        if: always()
+          url: "$DOCEBO_API_URL/$DOCEBO_API_ROUTE?$DOCEBO_API_QUERY"
+          method: GET
+          
+      - name: Show Response
+        run: echo ${{ steps.downloadCourseData.outputs.response }}
+        
+      # @see https://github.com/marketplace/actions/checkout
       - name: Checkout this repository.
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+          
+      # @see https://github.com/marketplace/actions/algolia-uploader
       - name: Upload content to Algolia.
         uses: wangchucheng/algolia-uploader@master
         with:
