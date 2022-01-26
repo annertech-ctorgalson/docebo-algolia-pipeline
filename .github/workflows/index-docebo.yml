@@ -15,6 +15,12 @@ jobs:
   index_content:
     runs-on: ubuntu-latest
     steps:
+      - name: TEST: verify default tools
+        run: |
+          command -v wget
+          command -v curl
+          command -v http
+          command -v jq
       - name: Checkout this repository.
         uses: actions/checkout@v2
         with:
