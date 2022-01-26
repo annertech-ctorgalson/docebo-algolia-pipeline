@@ -30,14 +30,17 @@ jobs:
           echo ${{ steps.myRequest.outputs.response }} > $DOCEBO_COURSES_FILENAME
       
       # @see https://github.com/actions/upload-artifact
+      # @see https://docs.github.com/en/actions/advanced-guides/storing-workflow-data-as-artifacts
       - name: Upload course data file.
         uses: actions/upload-artifact@v2
         with:
           name: $DOCEBO_COURSES_ARTIFACT
           path: $DOCEBO_COURSES_FILENAME
+        retention-days: 1
   
   index_courses_data:
     runs-on: ubuntu-latest
+    needs: download_course_data
     steps:
       # @see https://github.com/actions/download-artifact
       - name: Download Docebo course data.
