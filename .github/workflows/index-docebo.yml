@@ -36,7 +36,7 @@ jobs:
       - name: Show file and contents.
         run: |
           ls -hal ${{ env.home }}/tmp/
-          cat > ${{ env.home }}/tmp/courses.json
+          cat ${{ env.home }}/tmp/courses.json
         shell: bash
         if: always()
         
