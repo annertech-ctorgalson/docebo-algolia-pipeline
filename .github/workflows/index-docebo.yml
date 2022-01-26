@@ -33,7 +33,7 @@ jobs:
           write-mode: overwrite
         if: always()
           
-      - name: Show fiel and contents.
+      - name: Show file and contents.
         run: |
           ls -hal ${{ env.home }}/tmp/
           cat > ${{ env.home }}/tmp/courses.json
