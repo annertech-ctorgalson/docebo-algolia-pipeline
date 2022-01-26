@@ -26,9 +26,7 @@ jobs:
         
       - name: Show file contents.
         run: |
-          command -v cat
-          value=$(cat courses.json)
-          echo "$value"
+          echo "$(cat courses.json)"
         shell: bash
         if: always()
         
