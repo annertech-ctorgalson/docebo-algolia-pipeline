@@ -11,16 +11,17 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  index_content:
+  download_and_index_courses:
     runs-on: ubuntu-latest
     steps:
-      - name: TEST: verify default tools
+      - name: curl
+        uses: wei/curl@v1
+        with:
+          args: -o courses.json https://usertesting.docebosaas.com/course/v1/courses?status[]=published
+      - name: TEST: display courses.json content.
+        shell: bash
         run: |
-          command -v wget
-          command -v curl
-          command -v http
-          command -v jq
+          cat courses.json
       - name: Checkout this repository.
         uses: actions/checkout@v2
         with:
