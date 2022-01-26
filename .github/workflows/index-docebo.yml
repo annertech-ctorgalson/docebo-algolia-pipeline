@@ -14,16 +14,15 @@ jobs:
   # This workflow contains a single job called "build"
   index_content:
     runs-on: ubuntu-latest
-      name: Retrieve and index Docebo content
-      steps:
-        - name: Checkout this repository.
-          uses: actions/checkout@v2
-          with:
-            fetch-depth: 0
-        - name: Upload content to Algolia.
-          uses: wangchucheng/algolia-uploader@master
-          with:
-            app_id: ${{ secrets.APP_ID }}
-            admin_key: ${{ secrets.ADMIN_KEY }}
-            index_name: ${{ secrets.INDEX_NAME }}
-            index_file_path: test-data/docebo-records.json
+    steps:
+      - name: Checkout this repository.
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Upload content to Algolia.
+        uses: wangchucheng/algolia-uploader@master
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          admin_key: ${{ secrets.ADMIN_KEY }}
+          index_name: ${{ secrets.INDEX_NAME }}
+          index_file_path: test-data/docebo-records.json
