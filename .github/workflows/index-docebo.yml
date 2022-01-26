@@ -24,6 +24,7 @@ jobs:
       - name: TEST display courses.json content.
         shell: bash
         run: |
+          pwd && ls -hal
           value=$(cat "$DOCEBO_RESULTS_FILE")
           echo "$value"
         if: always()
